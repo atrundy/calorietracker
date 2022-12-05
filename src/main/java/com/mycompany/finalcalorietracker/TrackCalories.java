@@ -63,6 +63,7 @@ public class TrackCalories extends javax.swing.JFrame {
         labelGoal = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableTCSavedMeals = new javax.swing.JTable();
+        btnHistory = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,6 +148,8 @@ public class TrackCalories extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tableTCSavedMeals);
 
+        btnHistory.setText("History");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,10 +167,8 @@ public class TrackCalories extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(btnBack)
                         .addGap(95, 95, 95)
-                        .addComponent(btnSetGoal)
-                        .addGap(125, 125, 125)
-                        .addComponent(btnResetDay)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnSetGoal)))
+                .addContainerGap(161, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -188,16 +189,22 @@ public class TrackCalories extends javax.swing.JFrame {
                                 .addComponent(btnLoad)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fieldTCNumCals))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel1)
                                             .addComponent(jLabel3))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fieldTCMealName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(fieldTCMealName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(btnHistory)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnResetDay))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(fieldTCNumCals))))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jLabel4)
@@ -233,7 +240,8 @@ public class TrackCalories extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnBack)
                             .addComponent(btnSetGoal)
-                            .addComponent(btnResetDay))
+                            .addComponent(btnResetDay)
+                            .addComponent(btnHistory))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelTodayCals)
@@ -262,6 +270,9 @@ public class TrackCalories extends javax.swing.JFrame {
         DefaultTableModel tableModel = (DefaultTableModel)tableToday.getModel();
         tableModel.setRowCount(0);
         
+        //get final total cals number to store for history
+        String pastCals = labelTodayCals.getText();
+        
         //Reset all tracking labels
         labelTodayCals.setText("0");
         labelGoal.setText("0");
@@ -278,11 +289,10 @@ public class TrackCalories extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSetGoalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetGoalActionPerformed
-         String getGoal = JOptionPane.showInputDialog("Enter The Calorie Goal For Today: ");
+        String getGoal = JOptionPane.showInputDialog(null, "Enter The Calorie Goal For Today: ", "Calorie Goal",JOptionPane.QUESTION_MESSAGE );
         labelGoal.setText(getGoal);
         labelCalsLeft.setText(getGoal);
     }//GEN-LAST:event_btnSetGoalActionPerformed
-    DefaultListModel model = new DefaultListModel();
     
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         //Adding user inputs to Today's Calories List
@@ -392,6 +402,7 @@ public class TrackCalories extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnResetDay;
     private javax.swing.JButton btnSetGoal;

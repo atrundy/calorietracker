@@ -180,7 +180,7 @@ public class SaveMeals extends javax.swing.JFrame {
         this.setVisible(false);
         winHome.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
-    DefaultListModel dlm = new DefaultListModel();
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         //Gets user entered data from JTextFields 
         String data[] = {fieldMealName.getText(),fieldNumCals.getText()};
