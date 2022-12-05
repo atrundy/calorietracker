@@ -7,6 +7,9 @@ package com.mycompany.finalcalorietracker;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  *
@@ -25,6 +28,12 @@ public class TrackCalories extends javax.swing.JFrame {
      */
     public TrackCalories() {
         initComponents();
+        //https://www.javatpoint.com/java-get-current-date
+       
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
+        String currentDate = format.format(date);
+        labelDate.setText(currentDate);
     }
     
 
@@ -64,6 +73,7 @@ public class TrackCalories extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tableTCSavedMeals = new javax.swing.JTable();
         btnHistory = new javax.swing.JButton();
+        labelDate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,6 +160,8 @@ public class TrackCalories extends javax.swing.JFrame {
 
         btnHistory.setText("History");
 
+        labelDate.setText("jLabel8");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,11 +169,11 @@ public class TrackCalories extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
+                        .addGap(144, 144, 144)
                         .addComponent(labelGoal)
-                        .addGap(122, 122, 122)
+                        .addGap(105, 105, 105)
                         .addComponent(labelCalsLeft)
-                        .addGap(230, 230, 230)
+                        .addGap(179, 179, 179)
                         .addComponent(labelTodayCals))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -206,11 +218,13 @@ public class TrackCalories extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(fieldTCNumCals))))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
+                        .addContainerGap()
+                        .addComponent(labelDate)
+                        .addGap(61, 61, 61)
                         .addComponent(jLabel4)
-                        .addGap(59, 59, 59)
+                        .addGap(41, 41, 41)
                         .addComponent(jLabel5)
-                        .addGap(158, 158, 158)
+                        .addGap(106, 106, 106)
                         .addComponent(jLabel6)))
                 .addGap(0, 14, Short.MAX_VALUE))
         );
@@ -218,19 +232,15 @@ public class TrackCalories extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
                     .addComponent(jLabel4)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(labelDate))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelCalsLeft)
-                            .addComponent(labelGoal))
-                        .addGap(33, 33, 33)
+                        .addGap(50, 50, 50)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,9 +254,14 @@ public class TrackCalories extends javax.swing.JFrame {
                             .addComponent(btnHistory))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelTodayCals)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelTodayCals)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelCalsLeft)
+                                .addComponent(labelGoal)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -368,6 +383,7 @@ public class TrackCalories extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -418,6 +434,7 @@ public class TrackCalories extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel labelCalsLeft;
+    private javax.swing.JLabel labelDate;
     private javax.swing.JLabel labelGoal;
     private javax.swing.JLabel labelTodayCals;
     public static javax.swing.JTable tableTCSavedMeals;
