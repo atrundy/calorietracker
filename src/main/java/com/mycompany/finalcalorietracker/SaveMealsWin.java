@@ -247,15 +247,24 @@ public class SaveMealsWin extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
+        int numRows = tableSavedMeals.getRowCount();
+        
+        for (int i = 0; i < numRows; i++){
+            String pastName = tableSavedMeals.getValueAt(i, 0).toString();
+            int pastCals =   Integer.parseInt((String) tableSavedMeals.getValueAt(i, 1));
+            
+            Meal p = new Meal(pastName, pastCals);
+            savedMeals.add(p);
+         }
+        
         String name = fieldMealName.getText();
         int numCals = Integer.parseInt(fieldNumCals.getText());
         
         Meal m = new Meal(name, numCals);
         
-  
-
         savedMeals.add(m);
         
+
  
         Gson gson = new Gson();
         String userJson = gson.toJson(savedMeals);
