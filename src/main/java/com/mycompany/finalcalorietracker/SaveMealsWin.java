@@ -4,7 +4,21 @@
  */
 package com.mycompany.finalcalorietracker;
 
+import com.google.gson.Gson;
+import static com.mycompany.finalcalorietracker.TrackCaloriesWin.tableTCSavedMeals;
+import java.awt.event.KeyAdapter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -12,15 +26,54 @@ import javax.swing.table.TableModel;
  *
  * @author aidentrundy
  */
-public class SaveMeals extends javax.swing.JFrame {
-    private HomePage winHome;
+public class SaveMealsWin extends javax.swing.JFrame {
+    private HomePageWin winHome;
+    public int numSavedMeals;
     String saveMeal;
+    ArrayList<Meal> savedMeals = new ArrayList<Meal>();
+    
+    
+    
 
     /**
      * Creates new form SaveMeals
      */
-    public SaveMeals() {
+    public SaveMealsWin() {
         initComponents();
+        numSavedMeals = 0;
+        
+        
+        try{
+
+        File f = new File("savedMeals.json");
+        FileReader fr = new FileReader(f);
+        BufferedReader br = new BufferedReader(fr);
+        String tmp = br.readLine();
+        
+        
+        if (tmp != null){ 
+            Gson gson = new Gson();
+            
+            Meal[] savedMeals  = gson.fromJson(tmp, Meal[].class);
+           
+           for (int i = 0; i < savedMeals.length; i++){    
+               
+              String Meal[] = {savedMeals[i].name,String.valueOf(savedMeals[i].numCals)};
+   
+        
+              DefaultTableModel tableModel = (DefaultTableModel)tableSavedMeals.getModel();
+              tableModel.addRow(Meal);
+       
+              DefaultTableModel TCtableModel = (DefaultTableModel)tableTCSavedMeals.getModel();
+              TCtableModel.addRow(Meal);
+            
+           }
+        }
+
+        }catch(IOException e){
+            
+        }
+ 
     }
 
     /**
@@ -80,6 +133,17 @@ public class SaveMeals extends javax.swing.JFrame {
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoveActionPerformed(evt);
+            }
+        });
+
+        fieldNumCals.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldNumCalsActionPerformed(evt);
+            }
+        });
+        fieldNumCals.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fieldNumCalsKeyPressed(evt);
             }
         });
 
@@ -182,17 +246,50 @@ public class SaveMeals extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        //Gets user entered data from JTextFields 
-        String data[] = {fieldMealName.getText(),fieldNumCals.getText()};
+
+        String name = fieldMealName.getText();
+        int numCals = Integer.parseInt(fieldNumCals.getText());
         
-        //Adding user entries into Saved Meals Table
+        Meal m = new Meal(name, numCals);
+        
+  
+
+        savedMeals.add(m);
+        
+ 
+        Gson gson = new Gson();
+        String userJson = gson.toJson(savedMeals);
+        
+       try{ 
+            File f = new File("savedMeals.json");
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw); 
+            bw.write(userJson);
+            bw.close();
+            
+       } catch (IOException ex){
+           
+       }
+        
+        String Meal[] = {m.name,String.valueOf(m.numCals)};
+   
+        
         DefaultTableModel tableModel = (DefaultTableModel)tableSavedMeals.getModel();
-        tableModel.addRow(data);
-        
-        //Adding user entries into Saved Meals Table on TackCalories window
-        DefaultTableModel TCtableModel = (DefaultTableModel)TrackCalories.tableTCSavedMeals.getModel();
-        TCtableModel.addRow(data);
-        
+        tableModel.addRow(Meal);
+       
+        DefaultTableModel TCtableModel = (DefaultTableModel)tableTCSavedMeals.getModel();
+        TCtableModel.addRow(Meal);
+       
+        /*try{
+            File f = new File("savedMeals.txt");
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(fieldMealName.getText());
+            bw.close(); 
+           
+        }catch (IOException ex){
+            JOptionPane.showMessageDialog(this, "Couldn't Write To File", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }*/
         
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -201,6 +298,7 @@ public class SaveMeals extends javax.swing.JFrame {
         //get index of selected row on Saved Meals Table
         int selectedRow = tableSavedMeals.getSelectedRow();
         
+        
         //Removing user selected row from Jtable
         DefaultTableModel tableModel = (DefaultTableModel)tableSavedMeals.getModel();
         tableModel.removeRow(selectedRow);
@@ -208,18 +306,49 @@ public class SaveMeals extends javax.swing.JFrame {
         
         
         //remove the same index from Saved Meals Table on Track Calories Window
-        DefaultTableModel TCtableModel = (DefaultTableModel)TrackCalories.tableTCSavedMeals.getModel();
+        DefaultTableModel TCtableModel = (DefaultTableModel)TrackCaloriesWin.tableTCSavedMeals.getModel();
         TCtableModel.removeRow(selectedRow);
         
-
     }//GEN-LAST:event_btnRemoveActionPerformed
-    public void setHomePage(HomePage myCreator){
+
+    private void fieldNumCalsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldNumCalsActionPerformed
+        // TODO add your handling code here
+           
+    }//GEN-LAST:event_fieldNumCalsActionPerformed
+
+    private void fieldNumCalsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fieldNumCalsKeyPressed
+        // TODO add your handling code here:
+        // https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
+        // used this article to learn about KeyPressed and getKeyChar
+        //https://docs.oracle.com/javase/7/docs/api/java/lang/Character.html
+        //used this article to figure out that Character.isDigit was available which was perfect for the situation
+        
+        
+        //gets key character that user presses
+        char entry = evt.getKeyChar();
+        
+        /* if user enters a letter character or a negative sign, pop up telling user to enter a number appears
+        also textfield text is erased */
+        
+         if(Character.isDigit(entry)){
+                  
+         } 
+         else {
+            
+          JOptionPane.showMessageDialog(null,"Please Enter A Positive Number", "Error", JOptionPane.WARNING_MESSAGE);
+          
+          fieldNumCals.setText(""); 
+         }
+        
+    }//GEN-LAST:event_fieldNumCalsKeyPressed
+    public void setHomePage(HomePageWin myCreator){
         winHome = myCreator;
     }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -233,20 +362,21 @@ public class SaveMeals extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SaveMeals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaveMealsWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SaveMeals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaveMealsWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SaveMeals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaveMealsWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SaveMeals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SaveMealsWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SaveMeals().setVisible(true);
+                new SaveMealsWin().setVisible(true);
             }
         });
     }
