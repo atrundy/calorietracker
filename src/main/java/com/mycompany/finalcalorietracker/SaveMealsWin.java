@@ -31,6 +31,7 @@ public class SaveMealsWin extends javax.swing.JFrame {
     public int numSavedMeals;
     String saveMeal;
     ArrayList<Meal> savedMeals = new ArrayList<Meal>();
+    boolean savedInfo = false;
     
     
     
@@ -88,7 +89,7 @@ public class SaveMealsWin extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnBack = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
+        btnLoad = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
         fieldMealName = new javax.swing.JTextField();
         fieldNumCals = new javax.swing.JTextField();
@@ -99,6 +100,7 @@ public class SaveMealsWin extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableSavedMeals = new javax.swing.JTable();
+        btnSaveTable = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -122,10 +124,10 @@ public class SaveMealsWin extends javax.swing.JFrame {
             }
         });
 
-        btnSave.setText("Save");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnLoad.setText("Load");
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnLoadActionPerformed(evt);
             }
         });
 
@@ -167,25 +169,30 @@ public class SaveMealsWin extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tableSavedMeals);
 
+        btnSaveTable.setText("Save Table");
+        btnSaveTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveTableActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addComponent(jLabel2)
+                .addContainerGap()
+                .addComponent(btnBack)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(80, 80, 80))
+                .addComponent(btnSaveTable)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(btnSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRemove))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
@@ -197,14 +204,21 @@ public class SaveMealsWin extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fieldMealName, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(fieldMealName, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addComponent(btnLoad)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(80, 80, 80))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnRemove)
+                        .addGap(80, 80, 80))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -230,10 +244,12 @@ public class SaveMealsWin extends javax.swing.JFrame {
                             .addComponent(fieldNumCals, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave)
+                    .addComponent(btnLoad)
                     .addComponent(btnRemove))
                 .addGap(29, 29, 29)
-                .addComponent(btnBack)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(btnSaveTable))
                 .addGap(24, 24, 24))
         );
 
@@ -241,46 +257,18 @@ public class SaveMealsWin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
-        winHome.setVisible(true);
+        if(savedInfo == false){
+            JOptionPane.showMessageDialog(null, "Your Meals have not been saved");
+        }
+        else if (savedInfo = true){
+            this.setVisible(false);
+            winHome.setVisible(true);
+        }
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
 
-        int numRows = tableSavedMeals.getRowCount();
-        
-        for (int i = 0; i < numRows; i++){
-            String pastName = tableSavedMeals.getValueAt(i, 0).toString();
-            int pastCals =   Integer.parseInt((String) tableSavedMeals.getValueAt(i, 1));
-            
-            Meal p = new Meal(pastName, pastCals);
-            savedMeals.add(p);
-         }
-        
-        String name = fieldMealName.getText();
-        int numCals = Integer.parseInt(fieldNumCals.getText());
-        
-        Meal m = new Meal(name, numCals);
-        
-        savedMeals.add(m);
-        
-
- 
-        Gson gson = new Gson();
-        String userJson = gson.toJson(savedMeals);
-        
-       try{ 
-            File f = new File("savedMeals.json");
-            FileWriter fw = new FileWriter(f);
-            BufferedWriter bw = new BufferedWriter(fw); 
-            bw.write(userJson);
-            bw.close();
-            
-       } catch (IOException ex){
-           
-       }
-        
-        String Meal[] = {m.name,String.valueOf(m.numCals)};
+        String Meal[] = {fieldMealName.getText(),fieldNumCals.getText()};
    
         
         DefaultTableModel tableModel = (DefaultTableModel)tableSavedMeals.getModel();
@@ -289,18 +277,8 @@ public class SaveMealsWin extends javax.swing.JFrame {
         DefaultTableModel TCtableModel = (DefaultTableModel)tableTCSavedMeals.getModel();
         TCtableModel.addRow(Meal);
        
-        /*try{
-            File f = new File("savedMeals.txt");
-            FileWriter fw = new FileWriter(f);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(fieldMealName.getText());
-            bw.close(); 
-           
-        }catch (IOException ex){
-            JOptionPane.showMessageDialog(this, "Couldn't Write To File", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }*/
         
-    }//GEN-LAST:event_btnSaveActionPerformed
+    }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         
@@ -350,6 +328,35 @@ public class SaveMealsWin extends javax.swing.JFrame {
          }
         
     }//GEN-LAST:event_fieldNumCalsKeyPressed
+
+    private void btnSaveTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTableActionPerformed
+        // TODO add your handling code here:
+        int numRows = tableSavedMeals.getRowCount();
+        
+        for (int i = 0; i < numRows; i++){
+            String pastName = tableSavedMeals.getValueAt(i, 0).toString();
+            int pastCals =   Integer.parseInt((String) tableSavedMeals.getValueAt(i, 1));
+            
+            Meal p = new Meal(pastName, pastCals);
+            savedMeals.add(p);
+         }
+        
+        Gson gson = new Gson();
+        String userJson = gson.toJson(savedMeals);
+        
+       try{ 
+            File f = new File("savedMeals.json");
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw); 
+            bw.write(userJson);
+            bw.close();
+            
+       } catch (IOException ex){
+           
+       }
+       savedInfo = true;
+       JOptionPane.showMessageDialog(null, "Your Meals Have Been Saved");
+    }//GEN-LAST:event_btnSaveTableActionPerformed
     public void setHomePage(HomePageWin myCreator){
         winHome = myCreator;
     }
@@ -392,8 +399,9 @@ public class SaveMealsWin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnRemove;
-    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveTable;
     public static javax.swing.JTextField fieldMealName;
     public static javax.swing.JTextField fieldNumCals;
     private javax.swing.JLabel jLabel1;
