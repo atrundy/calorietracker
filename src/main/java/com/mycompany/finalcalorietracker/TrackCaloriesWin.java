@@ -7,18 +7,13 @@ package com.mycompany.finalcalorietracker;
 import com.google.gson.Gson;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -27,8 +22,6 @@ import java.util.logging.Logger;
  */
 public class TrackCaloriesWin extends javax.swing.JFrame {
      private HomePageWin winHome;
-     String loadMeal;
-     String calsEntry;
      public Meal[] listMeals;
      public int numMeals;
      ArrayList<Meal> history = new ArrayList<Meal>();
@@ -43,12 +36,14 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
     public TrackCaloriesWin() {
         initComponents();
         
+        //Gets current date and sets labelDate to value
         //https://www.javatpoint.com/java-get-current-date
-       
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
         String currentDate = format.format(date);
         labelDate.setText(currentDate);
+        //end of code used
+        
         
         this.listMeals = new Meal[100];
         this.numMeals = 0;
@@ -92,6 +87,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
         btnTCRemove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Track Calories ");
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -312,7 +308,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
         Gson data = new Gson();
         String userHistory = data.toJson(history);
         
-       try{ 
+        try{ 
             File f = new File("history.json");
             FileWriter fw = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(fw); 
@@ -351,7 +347,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetDayActionPerformed
 
     private void fieldTCNumCalsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldTCNumCalsActionPerformed
-        // TODO add your handling code here:
+
         
     }//GEN-LAST:event_fieldTCNumCalsActionPerformed
 
@@ -361,7 +357,9 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSetGoalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetGoalActionPerformed
-       String getGoal = JOptionPane.showInputDialog(null, "Enter The Calorie Goal For Today: ", "Calorie Goal",JOptionPane.QUESTION_MESSAGE );
+       
+        String getGoal = JOptionPane.showInputDialog(null, "Enter The Calorie Goal For Today: ", "Calorie Goal",JOptionPane.QUESTION_MESSAGE );
+        
        //https://www.tutorialkart.com/java/how-to-check-if-string-contains-only-digits-in-java/#:~:text=Java%20%E2%80%93%20Check%20if%20String%20contains,the%20given%20string%20are%20digits.
        //used this article to learn about "("[0-9]+")" since I couldn't use Character.isDigit when reading in a whole string
        
@@ -377,8 +375,10 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSetGoalActionPerformed
     
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        
         //Adding user inputs to Today's Calories List
         //https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
+        //used article to familiarize with jTables
         
         String name = fieldTCMealName.getText();
         int numCals = Integer.parseInt(fieldTCNumCals.getText());
@@ -393,6 +393,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
         
         DefaultTableModel tableModel = (DefaultTableModel)tableToday.getModel();
         tableModel.addRow(Meal);
+        //end of article info
         
         //Calculating total calories of table entries
         //https://stackoverflow.com/questions/16395939/getting-values-from-jtable-cell
@@ -405,6 +406,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
             int val = Integer.valueOf(tableToday.getValueAt(i, 1).toString());
              totalCals += val; 
         }
+        //end of used code
         
         labelTodayCals.setText(Integer.toString(totalCals));
 
@@ -416,7 +418,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
         
        DefaultTableModel tableModel = (DefaultTableModel)tableToday.getModel();
        
-       //getting selected row from saved meal table and addind it to Today's Cals Table
+       //getting selected row from saved meal table and adding it to Today's Cals Table
        int index = tableTCSavedMeals.getSelectedRow();
        String mealName = tableTCModel.getValueAt(index, 0).toString();
        String numCals = tableTCModel.getValueAt(index, 1).toString();
@@ -442,17 +444,20 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
   
         // https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
         // used this article to learn about KeyPressed and getKeyChar
-        //https://docs.oracle.com/javase/7/docs/api/java/lang/Character.html
-        //used this article to figure out that Character.isDigit was available which was perfect for the situation
-
+        
         //gets key character that user presses
         char entry = evt.getKeyChar();
+        // end of used code 
+        
+        //https://docs.oracle.com/javase/7/docs/api/java/lang/Character.html
+        //used this article to figure out that Character.isDigit was available which was perfect for the situation
         
         /*if user enters a characte that is not a digit, pop up telling user to enter a number appears
         also textfield text is erased */
         
          if(Character.isDigit(entry)){
-             
+         //end of used code
+         
          } else {
              JOptionPane.showMessageDialog(null,"Please Enter A Positive Number", "Error", JOptionPane.WARNING_MESSAGE);
           
@@ -461,7 +466,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldTCNumCalsKeyPressed
 
     private void btnTCRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTCRemoveActionPerformed
-        // TODO add your handling code here:
+
          //get index of selected row on Today Cals Table
         int selectedRow = tableToday.getSelectedRow();
         

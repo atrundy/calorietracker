@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
 /**
@@ -25,6 +24,44 @@ public class HistoryWin extends javax.swing.JFrame {
     public HistoryWin() {
         initComponents();
         DefaultListModel historyModel = new DefaultListModel();
+        listHistory.setModel(historyModel);
+        
+        //reads history file read from Today Cals Table 
+        try{
+
+        File f = new File("history.json");
+        FileReader fr = new FileReader(f);
+        BufferedReader br = new BufferedReader(fr);
+        String jsonHistory = br.readLine();
+        
+        //converts json file into array of objects following meal class
+        if (jsonHistory != null){ 
+            Gson gson = new Gson();
+            
+            Meal[] history  = gson.fromJson(jsonHistory, Meal[].class);
+           
+           //if index is 0, read date before line, for other indexes read in name and num cals 
+           //this is being read into a JList 
+           for (int i = 0; i < history.length; i++){   
+               if (i== 0){
+                historyModel.addElement(TrackCaloriesWin.labelDate.getText());
+                historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
+               }
+           else{
+                historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
+               }
+   
+        
+              
+            
+           }
+        }else {
+           System.out.println("Empty");
+        }
+
+        }catch(IOException e){
+            
+        }
 
         
      
@@ -45,6 +82,7 @@ public class HistoryWin extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("History");
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +138,10 @@ public class HistoryWin extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        
+        /* performs the same thing as code above but updates table to contain 
+        most recent info, if user wants to get history without closing the program */
+        
         DefaultListModel historyModel = new DefaultListModel();
         listHistory.setModel(historyModel);
         

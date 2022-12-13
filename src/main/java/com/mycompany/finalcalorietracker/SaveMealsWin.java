@@ -6,21 +6,15 @@ package com.mycompany.finalcalorietracker;
 
 import com.google.gson.Gson;
 import static com.mycompany.finalcalorietracker.TrackCaloriesWin.tableTCSavedMeals;
-import java.awt.event.KeyAdapter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -42,6 +36,7 @@ public class SaveMealsWin extends javax.swing.JFrame {
         initComponents();
         numSavedMeals = 0;
         
+        //Reading in previously saved meal data from file when screen is created 
         try{
 
         File f = new File("savedMeals.json");
@@ -49,12 +44,13 @@ public class SaveMealsWin extends javax.swing.JFrame {
         BufferedReader br = new BufferedReader(fr);
         String tmp = br.readLine();
         
-        
+        //if string read in isn't null, read it from json into an array of meals called savedMeals
         if (tmp != null){ 
             Gson gson = new Gson();
             
             Meal[] savedMeals  = gson.fromJson(tmp, Meal[].class);
            
+           //reads data from file into table 
            for (int i = 0; i < savedMeals.length; i++){    
                
               String Meal[] = {savedMeals[i].name,String.valueOf(savedMeals[i].numCals)};
@@ -114,6 +110,7 @@ public class SaveMealsWin extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Save Meals");
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -255,6 +252,12 @@ public class SaveMealsWin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        //if data hasn't been saved using save table button tell the message telling user to go back and save changes 
+        
+        /*this only happens the first time the user updates the table after opening the app,
+        my idea was that it would get annoying after awhile due to if no changes were made it still tells you to save table
+        this feature is basically there to familiarize the user with the need to save the table */
+     
         if(savedInfo == false){
             JOptionPane.showMessageDialog(null, "Your Meals have not been saved");
         }
@@ -265,7 +268,9 @@ public class SaveMealsWin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-
+        
+        //takes user entered data from text fields and adds them to table 
+        
         String Meal[] = {fieldMealName.getText(),fieldNumCals.getText()};
    
         
@@ -278,8 +283,7 @@ public class SaveMealsWin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        
-        //get index of selected row on Saved Meals Table
+        //get index of selected row and remove row index from saved meal tables on both windows
         int selectedRow = tableSavedMeals.getSelectedRow();
         
         
@@ -289,7 +293,7 @@ public class SaveMealsWin extends javax.swing.JFrame {
         
         
         
-        //remove the same index from Saved Meals Table on Track Calories Window
+
         DefaultTableModel TCtableModel = (DefaultTableModel)TrackCaloriesWin.tableTCSavedMeals.getModel();
         TCtableModel.removeRow(selectedRow);
         
@@ -301,21 +305,22 @@ public class SaveMealsWin extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldNumCalsActionPerformed
 
     private void fieldNumCalsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fieldNumCalsKeyPressed
-        // TODO add your handling code here:
+
         // https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
         // used this article to learn about KeyPressed and getKeyChar
-        //https://docs.oracle.com/javase/7/docs/api/java/lang/Character.html
-        //used this article to figure out that Character.isDigit was available which was perfect for the situation
-        
         
         //gets key character that user presses
         char entry = evt.getKeyChar();
+        //end of used code
+        
+        //https://docs.oracle.com/javase/7/docs/api/java/lang/Character.html
+        //used this article to figure out that Character.isDigit was available which was perfect for the situation
         
         /* if user enters a letter character or a negative sign, pop up telling user to enter a number appears
         also textfield text is erased */
         
          if(Character.isDigit(entry)){
-                  
+         //end of used code      
          } 
          else {
             
@@ -327,7 +332,8 @@ public class SaveMealsWin extends javax.swing.JFrame {
     }//GEN-LAST:event_fieldNumCalsKeyPressed
 
     private void btnSaveTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTableActionPerformed
-        // TODO add your handling code here:
+ 
+        // gets row count and reads in current table values to array list savedMeals
         int numRows = tableSavedMeals.getRowCount();
         
         for (int i = 0; i < numRows; i++){
@@ -338,9 +344,11 @@ public class SaveMealsWin extends javax.swing.JFrame {
             savedMeals.add(p);
          }
         
+        // converts json to string 
         Gson gson = new Gson();
         String userJson = gson.toJson(savedMeals);
-        
+       
+        //reads values from table into file savedmeals.json
        try{ 
             File f = new File("savedMeals.json");
             FileWriter fw = new FileWriter(f);
