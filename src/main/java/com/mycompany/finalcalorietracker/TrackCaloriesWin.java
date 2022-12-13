@@ -4,12 +4,18 @@
  */
 package com.mycompany.finalcalorietracker;
 
+import com.google.gson.Gson;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +31,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
      String calsEntry;
      public Meal[] listMeals;
      public int numMeals;
+     ArrayList<Meal> history = new ArrayList<Meal>();
     
      
      
@@ -290,8 +297,34 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnResetDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetDayActionPerformed
+        
+        int numRows = tableToday.getRowCount();
 
         
+        for (int i = 0; i < numRows; i++){
+            String historyName = tableToday.getValueAt(i, 0).toString();
+            int historyCals = Integer.parseInt((String)tableToday.getValueAt(i, 1));
+            
+            Meal m = new Meal(historyName, historyCals);  
+            history.add(m);
+         }
+        
+        Gson data = new Gson();
+        String userHistory = data.toJson(history);
+        
+       try{ 
+            File f = new File("history.json");
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw); 
+            bw.write(userHistory);
+            bw.newLine();
+            bw.close();
+            
+       } catch (IOException ex){
+           
+       }
+       
+               
         // get integer value of final calories and user goal 
         int finalCals = Integer.parseInt(labelTodayCals.getText());
         int finalGoal = Integer.parseInt(labelGoal.getText());
@@ -308,15 +341,12 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
         DefaultTableModel tableModel = (DefaultTableModel)tableToday.getModel();
         tableModel.setRowCount(0);
         
-        //get final total cals number to store for history
-        String pastCals = labelTodayCals.getText();
-        
-        //get date to store in history with final total cal number
-        String pastDate =labelDate.getText();
         
         //Reset all tracking labels
         labelTodayCals.setText("0");
         labelGoal.setText("0");
+        String historyDate = labelDate.getText();
+        
         
     }//GEN-LAST:event_btnResetDayActionPerformed
 
@@ -505,7 +535,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel labelDate;
+    public static javax.swing.JLabel labelDate;
     private javax.swing.JLabel labelGoal;
     private javax.swing.JLabel labelTodayCals;
     public static javax.swing.JTable tableTCSavedMeals;

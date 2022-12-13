@@ -18,41 +18,15 @@ import javax.swing.DefaultListModel;
  */
 public class HistoryWin extends javax.swing.JFrame {
     private HomePageWin winHome;
-    private DefaultListModel model;
 
     /**
      * Creates new form HistoryWin
      */
     public HistoryWin() {
         initComponents();
-        model = new DefaultListModel();
-        listHistory.setModel(model);
-        
-    /* try{
+        DefaultListModel historyModel = new DefaultListModel();
 
-        File f = new File("savedMeals.json");
-        FileReader fr = new FileReader(f);
-        BufferedReader br = new BufferedReader(fr);
-        String tmp = br.readLine();
         
-        
-        if (tmp != null){ 
-            Gson gson = new Gson();
-            
-            Meal[] savedMeals  = gson.fromJson(tmp, Meal[].class);
-           
-           for (int i = 0; i < savedMeals.length; i++){    
-            model.addElement(savedMeals[i].name);
-            
-           }
-        }
-        else {
-        jTextArea1.setText("Default Text");
-        }
-
-        }catch(IOException e){
-            jTextArea1.setText("Default Text");
-        }*/
      
     }
 
@@ -68,6 +42,7 @@ public class HistoryWin extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         listHistory = new javax.swing.JList<>();
+        btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +55,13 @@ public class HistoryWin extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(listHistory);
 
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,17 +69,23 @@ public class HistoryWin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBack)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(175, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addGap(91, 91, 91)
+                        .addComponent(btnUpdate)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(btnBack)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(btnUpdate))
                 .addContainerGap())
         );
 
@@ -109,6 +97,47 @@ public class HistoryWin extends javax.swing.JFrame {
         this.setVisible(false);
         winHome.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        DefaultListModel historyModel = new DefaultListModel();
+        listHistory.setModel(historyModel);
+        
+        try{
+
+        File f = new File("history.json");
+        FileReader fr = new FileReader(f);
+        BufferedReader br = new BufferedReader(fr);
+        String jsonHistory = br.readLine();
+        
+        
+        if (jsonHistory != null){ 
+            Gson gson = new Gson();
+            
+            Meal[] history  = gson.fromJson(jsonHistory, Meal[].class);
+           
+           
+           for (int i = 0; i < history.length; i++){   
+               if (i== 0){
+                historyModel.addElement(TrackCaloriesWin.labelDate.getText());
+                historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
+               }
+           else{
+                historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
+               }
+   
+        
+              
+            
+           }
+        }else {
+           System.out.println("Empty");
+        }
+
+        }catch(IOException e){
+            
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
    
     public void setHomePage(HomePageWin myCreator){
         winHome = myCreator;
@@ -150,6 +179,7 @@ public class HistoryWin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> listHistory;
     // End of variables declaration//GEN-END:variables

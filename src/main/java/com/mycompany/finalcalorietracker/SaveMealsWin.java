@@ -29,9 +29,8 @@ import javax.swing.table.TableModel;
 public class SaveMealsWin extends javax.swing.JFrame {
     private HomePageWin winHome;
     public int numSavedMeals;
-    String saveMeal;
     ArrayList<Meal> savedMeals = new ArrayList<Meal>();
-    boolean savedInfo = false;
+    boolean savedInfo;
     
     
     
@@ -42,7 +41,6 @@ public class SaveMealsWin extends javax.swing.JFrame {
     public SaveMealsWin() {
         initComponents();
         numSavedMeals = 0;
-        
         
         try{
 
@@ -276,7 +274,6 @@ public class SaveMealsWin extends javax.swing.JFrame {
        
         DefaultTableModel TCtableModel = (DefaultTableModel)tableTCSavedMeals.getModel();
         TCtableModel.addRow(Meal);
-       
         
     }//GEN-LAST:event_btnLoadActionPerformed
 
