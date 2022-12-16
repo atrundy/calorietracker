@@ -1,14 +1,22 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ *
+ * Name: Aiden Trundy
+ * Class: Visual Programming I
+ * File Name: HistoryWin.java
  */
 package com.mycompany.finalcalorietracker;
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -137,48 +145,56 @@ public class HistoryWin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-        
-        /* performs the same thing as code above but updates table to contain 
-        most recent info, if user wants to get history without closing the program */
-        
-        DefaultListModel historyModel = new DefaultListModel();
-        listHistory.setModel(historyModel);
-        
-        try{
 
-        File f = new File("history.json");
-        FileReader fr = new FileReader(f);
-        BufferedReader br = new BufferedReader(fr);
-        String jsonHistory = br.readLine();
-        
-        
-        if (jsonHistory != null){ 
-            Gson gson = new Gson();
+            /* performs the same thing as code above but updates table to contain
+            most recent info, if user wants to get history without closing the program */
             
-            Meal[] history  = gson.fromJson(jsonHistory, Meal[].class);
-           
-           
-           for (int i = 0; i < history.length; i++){   
-               if (i== 0){
-                historyModel.addElement(TrackCaloriesWin.labelDate.getText());
-                historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
-               }
-           else{
-                historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
-               }
-   
-        
-              
+            DefaultListModel historyModel = new DefaultListModel();
+            listHistory.setModel(historyModel);
             
-           }
-        }else {
-           System.out.println("Empty");
-        }
+            try{
+            
+                File f = new File("history.json");
+                FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr);
+                String jsonHistory = br.readLine();
 
-        }catch(IOException e){
+
+                if (jsonHistory != null){
+                    Gson gson = new Gson();
+
+                    Meal[] history  = gson.fromJson(jsonHistory, Meal[].class);
+
+
+                for (int i = 0; i < history.length; i++){
+                    if (i== 0){
+                     historyModel.addElement(TrackCaloriesWin.labelDate.getText());
+                     historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
+                }
+                else{
+                    historyModel.addElement(history[i].getName() + ", " + history[i].getNumCals());
+                }
+                    
+                }
+                
+                }
+                else {
+                    System.out.println("Empty");
+                }
             
-        }
+            }catch(IOException e){
+            
+            }
+       /* try {
+            FileWriter fw = new FileWriter("history.json",true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             for (int i = 0; i < listHistory.getModel().getSize(); i++){
+                bw.write(listHistory.getModel().getElementAt(i) + "\n");
+            }
+             bw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(HistoryWin.class.getName()).log(Level.SEVERE, null, ex);
+        } */
     }//GEN-LAST:event_btnUpdateActionPerformed
    
     public void setHomePage(HomePageWin myCreator){

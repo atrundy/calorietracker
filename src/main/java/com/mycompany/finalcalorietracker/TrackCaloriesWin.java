@@ -1,6 +1,10 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ *
+ * Name: Aiden Trundy
+ * Class: Visual Programming I
+ * File Name: TrackCaloriesWin.java
  */
 package com.mycompany.finalcalorietracker;
 
@@ -397,6 +401,7 @@ public class TrackCaloriesWin extends javax.swing.JFrame {
         
         //Calculating total calories of table entries
         //https://stackoverflow.com/questions/16395939/getting-values-from-jtable-cell
+        
         int numRows = tableToday.getRowCount();
         
         int totalCals = 0;

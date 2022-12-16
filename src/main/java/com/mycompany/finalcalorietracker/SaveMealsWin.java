@@ -1,6 +1,10 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ *
+ * Name: Aiden Trundy
+ * Class: Visual Programming I
+ * File Name: SaveMealsWin.java
  */
 package com.mycompany.finalcalorietracker;
 
@@ -39,30 +43,30 @@ public class SaveMealsWin extends javax.swing.JFrame {
         //Reading in previously saved meal data from file when screen is created 
         try{
 
-        File f = new File("savedMeals.json");
-        FileReader fr = new FileReader(f);
-        BufferedReader br = new BufferedReader(fr);
-        String tmp = br.readLine();
-        
-        //if string read in isn't null, read it from json into an array of meals called savedMeals
-        if (tmp != null){ 
-            Gson gson = new Gson();
-            
-            Meal[] savedMeals  = gson.fromJson(tmp, Meal[].class);
-           
-           //reads data from file into table 
-           for (int i = 0; i < savedMeals.length; i++){    
-               
-              String Meal[] = {savedMeals[i].name,String.valueOf(savedMeals[i].numCals)};
-   
-        
-              DefaultTableModel tableModel = (DefaultTableModel)tableSavedMeals.getModel();
-              tableModel.addRow(Meal);
-       
-              DefaultTableModel TCtableModel = (DefaultTableModel)tableTCSavedMeals.getModel();
-              TCtableModel.addRow(Meal);
-            
-           }
+            File f = new File("savedMeals.json");
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String tmp = br.readLine();
+
+            //if string read in isn't null, read it from json into an array of meals called savedMeals
+            if (tmp != null){ 
+                Gson gson = new Gson();
+
+                Meal[] savedMeals  = gson.fromJson(tmp, Meal[].class);
+
+               //reads data from file into table 
+               for (int i = 0; i < savedMeals.length; i++){    
+
+                  String Meal[] = {savedMeals[i].name,String.valueOf(savedMeals[i].numCals)};
+
+
+                  DefaultTableModel tableModel = (DefaultTableModel)tableSavedMeals.getModel();
+                  tableModel.addRow(Meal);
+
+                  DefaultTableModel TCtableModel = (DefaultTableModel)tableTCSavedMeals.getModel();
+                  TCtableModel.addRow(Meal);
+
+               }
         }
 
         }catch(IOException e){
@@ -376,8 +380,8 @@ public class SaveMealsWin extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
